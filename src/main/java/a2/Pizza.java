@@ -1,11 +1,15 @@
 package a2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Pizza {
     String type;
-    char size;
-    List<String> toppings;
+    private char size;
+    List<String> toppings = new ArrayList<String>();
+    private int quantity;
+    private int pizzaId;
+    private static int currentId = 1;
 
     public String getType(){
         return type;
@@ -18,29 +22,50 @@ public abstract class Pizza {
     public List<String> getToppings(){
         return toppings;
     }
+
+    public Pizza(char size, int quantity) {
+        this.size = size;
+        this.quantity = quantity;
+        this.pizzaId = currentId;
+        currentId += 1;
+        if (currentId > 1000) {
+            currentId = 1;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Pizza{" +
+                "type='" + type + '\'' +
+                ", size=" + size +
+                ", toppings=" + toppings +
+                ", quantity=" + quantity +
+                ", pizzaId=" + pizzaId +
+                '}';
+    }
 }
 
 class pepperoniPizza extends Pizza {
-    pepperoniPizza(char pizzaSize){
+    pepperoniPizza(char size, int quantity){
+        super(size, quantity);
         type = "Pepperoni";
-        size = pizzaSize;
         toppings.add("pepperoni");
     }
 }
 
 class margheritaPizza extends Pizza {
-    margheritaPizza(char pizzaSize){
+    margheritaPizza(char size, int quantity){
+        super(size, quantity);
         type = "Margherita";
-        size = pizzaSize;
         toppings.add("tomatoes");
         toppings.add("olives");
     }
 }
 
 class vegetarianPizza extends Pizza {
-    vegetarianPizza(char pizzaSize){
+    vegetarianPizza(char size, int quantity){
+        super(size, quantity);
         type = "Vegetarian";
-        size = pizzaSize;
         toppings.add("tomatoes");
         toppings.add("olives");
         toppings.add("mushrooms");
@@ -49,17 +74,17 @@ class vegetarianPizza extends Pizza {
 }
 
 class neapolitanPizza extends Pizza {
-    neapolitanPizza(char pizzaSize){
+    neapolitanPizza(char size, int quantity){
+        super(size, quantity);
         type = "Neapolitan";
-        size = pizzaSize;
         toppings.add("tomatoes");
     }
 }
 
 class customPizza extends Pizza {
-    customPizza(char pizzaSize, List<String> pizzaToppings){
+    customPizza(char size, int quantity, List<String> pizzaToppings){
+        super(size, quantity);
         type = "Custom";
-        size = pizzaSize;
         toppings = pizzaToppings;
     }
 }

@@ -2,24 +2,24 @@ package a2;
 
 import java.util.List;
 
-public class pizzaFactory {
-    public Pizza makePepperoniPizza(char size){
-        return new pepperoniPizza(size);
+public class PizzaFactory {
+    public static Pizza makePepperoniPizza(char size, int quantity){
+        return new pepperoniPizza(size, quantity);
     }
 
-    public Pizza makeMargheritaPizza(char size){
-        return new margheritaPizza(size);
+    public static Pizza makeMargheritaPizza(char size, int quantity){
+        return new margheritaPizza(size, quantity);
     }
 
-    public Pizza makeVegetarianPizza(char size){
-        return new vegetarianPizza(size);
+    public static Pizza makeVegetarianPizza(char size, int quantity){
+        return new vegetarianPizza(size, quantity);
     }
 
-    public Pizza makeNeapolitanPizza(char size){
-        return new neapolitanPizza(size);
+    public static Pizza makeNeapolitanPizza(char size, int quantity){
+        return new neapolitanPizza(size, quantity);
     }
 
-    public Pizza makeCustomPizza(char size, List<String> toppings){
-        return new customPizza(size, toppings);
+    public static Pizza makeCustomPizza(char size, int quantity, List<String> toppings){
+        return new customPizza(size, quantity, toppings);
     }
 }
