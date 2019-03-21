@@ -1,6 +1,8 @@
 package a2;
 import java.util.*;
 
+import static a2.Menu.getMenu;
+
 public class PizzaParlour {
 
     public static int[] getDrinksLoop(Map<Integer, Integer> drinks) {
@@ -120,7 +122,7 @@ public class PizzaParlour {
     }
 
     public static void main(String[] args) {
-
+        getMenu();
         Map<Integer, Integer> drinks = new HashMap<Integer, Integer>();
         for (int i = 1; i <= 8; i += 1) {
             drinks.put(i, 0);
