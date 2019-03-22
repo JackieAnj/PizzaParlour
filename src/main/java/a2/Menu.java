@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Menu {
+class Menu {
 
-    static Map<String, String> pizzas = new HashMap<>();
-    static Map<String, String> toppings = new HashMap<>();
-    static Map<String, String> drinks = new HashMap<>();
+    static private Map<String, String> pizzas = new HashMap<>();
+    static private Map<String, String> toppings = new HashMap<>();
+    static private Map<String, String> drinks = new HashMap<>();
 
-    public static void getMenu(){
+    static void setMenu(){
         // CREDIT https://www.journaldev.com/709/java-read-file-line-by-line
         BufferedReader reader;
         try {
@@ -40,18 +40,68 @@ public class Menu {
                 item = reader.readLine();
             }
             reader.close();
-            System.out.println(pizzas);
-            System.out.println(toppings);
-            System.out.println(drinks);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    public void displayFullMenu(){
-
+    static String displayMenu(String userCommand) {
+        String delims = "[-]";
+        String[] commandTokens = userCommand.split(delims);
+        String command = commandTokens[1];
+        String msg = command + " is not a valid menu item";
+        if (command.equals("Full")){
+            msg = displayFullMenu();
+        } else if (command.equals("Pizzas")) {
+            msg = displayPizzaMenu();
+        } else if (command.equals("Toppings")) {
+            msg = displayToppingsMenu();
+        } else if (command.equals("Drinks")) {
+            msg = displayDrinksMenu();
+        } else {
+            String value = pizzas.get(command);
+            if (value != null) {
+                msg = command + " ==> " + value;
+            }
+            value = toppings.get(command);
+            if (value != null) {
+                msg = command + " ==> " + value;
+            }
+            value = drinks.get(command);
+            if (value != null) {
+                msg = command + " ==> " + value;
+            }
+            //System.out.println(msg);
+        }
+        return msg;
+    }
+    private static String displayFullMenu(){
+        return displayPizzaMenu() + displayToppingsMenu() + displayDrinksMenu();
     }
 
-    public void displayMenuItem(String item){
+    private static String displayPizzaMenu() {
+        String result = "== PIZZAS ==============================\n";
+        //System.out.println("== PIZZAS ==============================");
+        for (String key : pizzas.keySet()){
+            result = result + (key + " ==> " + pizzas.get(key)) + "\n";
+        }
+        return result;
+    }
 
+    private static String displayToppingsMenu() {
+        String result = " == TOPPINGS ==============================\n";
+        //System.out.println(" == TOPPINGS ==============================");
+        for (String key : toppings.keySet()){
+            result = result + (key + " ==> " + toppings.get(key)) + "\n";
+        }
+        return result;
+    }
+
+    private static String displayDrinksMenu() {
+        String result = "== DRINKS ==============================\n";
+        //System.out.println("== DRINKS ==============================");
+        for (String key : drinks.keySet()){
+            result = result + (key + " ==> " + drinks.get(key)) + "\n";
+        }
+        return result;
     }
 }

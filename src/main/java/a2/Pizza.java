@@ -11,17 +11,19 @@ public abstract class Pizza {
     private int pizzaId;
     private static int currentId = 1;
 
-    public String getType(){
+    String getType(){
         return type;
     }
 
-    public char getSize(){
+    char getSize(){
         return size;
     }
 
-    public List<String> getToppings(){
+    List<String> getToppings(){
         return toppings;
     }
+
+    int getQuantity() {return quantity; }
 
     public Pizza(char size, int quantity) {
         this.size = size;

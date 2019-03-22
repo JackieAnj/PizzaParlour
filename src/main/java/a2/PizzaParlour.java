@@ -1,7 +1,8 @@
 package a2;
 import java.util.*;
 
-import static a2.Menu.getMenu;
+import static a2.Menu.displayMenu;
+import static a2.Menu.setMenu;
 
 public class PizzaParlour {
 
@@ -147,7 +148,6 @@ public class PizzaParlour {
     public static String[] getAddressAndDelivery() {
         String[] addressAndDelivery = new String[2];
         List<String> validDeliveries = new ArrayList<>(Arrays.asList("Pickup", "Delivery", "Uber", "Foodora"));
-
         Scanner scanner = new Scanner(System.in);
         String userInput;
 
@@ -179,7 +179,6 @@ public class PizzaParlour {
     public static Order createOrder() {
         List<Pizza> pizzas = new ArrayList<>();
         List<Drink> drinks = new ArrayList<>();
-
         String address;
         String type;
 
