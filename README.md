@@ -17,9 +17,18 @@ One thing we found to be a disadvantage or pair programming is when we are writi
 ## Design
 
 ### Design patterns
-Builder
-Factory
-Adaptor
+We have implemented the following design partterns in our program:
+#### 1. Factory Method
+We made Factories for the two types of objects that the program will need to create, which are Pizzas and Orders. Pizza is an abstract class with all the different types of pizzas as its subclass, each with their own constructor. The PizzaFactory has a method for each type of pizza that calls on the the corresponding pizza type's constructor. Similarly the OrderFactory also has a method for each type of order that calls on the corresponding order type's constructor.
+
+Any object creation in main is done through the factories. This adds a layer of encapsulation, allowing the program to work with different implementations of Pizza and Order objects.
+
+#### 2. Builder
+We implemented the Builder design pattern in the various methods in main. The program will ask the user for information needed to complete a task one input at a time. Everytime the program receives an input, It will conduct error checking to make sure the input is valid, then prompt the user to enter the next input until either all reqiured fields are acquired or the user manually exits.
+
+This ensures that when the program is sending the arguments to the constructors, the arguments will always be in the correct order and format.
+
+#### 3. Adaptor
 
 ### Relationships between objects
 
