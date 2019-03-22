@@ -5,78 +5,97 @@ import static a2.Menu.getMenu;
 
 public class PizzaParlour {
 
-    public static int[] getDrinksLoop(Map<Integer, Integer> drinks) {
-        int[] drinkAndNumber = new int[2];
-        System.out.println("What drink do you want? [(1) Coke, (2) Diet Coke, (3) Coke Zero, (4) Pepsi, (5) Diet Pepsi, (6) Dr. Pepper, (7) Water, (8) Juice, (9) Back]");
-        Scanner scanner = new Scanner(System.in);
-        Integer userDrinkIndex = Integer.valueOf(scanner.nextLine().trim());
-
-        while (!drinks.containsKey(userDrinkIndex) && !userDrinkIndex.equals(9)) {
-            System.out.println("NOT VALID");
-            System.out.println("What drink do you want? [(1) Coke, (2) Diet Coke, (3) Coke Zero, (4) Pepsi, (5) Diet Pepsi, (6) Dr. Pepper, (7) Water, (8) Juice, (9) Back]");
-            userDrinkIndex = Integer.valueOf(scanner.nextLine().trim());
-        }
-
-        if (userDrinkIndex.equals(9)) {
-            drinkAndNumber[0] = 0;
-            drinkAndNumber[1] = 0;
-            return drinkAndNumber;
-        }
-
-        System.out.println("How many of this drink? [Enter number or 'Back']");
-        Integer numDrinks = Integer.valueOf(scanner.nextLine().trim()); // WARNING: INPUT NEEDS TO BE VERIFIED !!!!!!!!!!!!!!!!!!!!!!!!!!
-        drinkAndNumber[0] = userDrinkIndex;
-        drinkAndNumber[1] = numDrinks;
-        return drinkAndNumber;
-    }
-
     public static boolean isInteger(String possibleInt) throws NumberFormatException, NullPointerException {
         // CREDIT: https://www.baeldung.com/java-check-string-number
         try {
             Integer.parseInt(possibleInt);
         }
-        catch (NumberFormatException nfe) {
-            return false;
-        }
-        catch (NullPointerException npe) {
+        catch (NumberFormatException | NullPointerException nfe) {
             return false;
         }
         return true;
     }
 
+
+    public static Drink getDrinksLoop() {
+        Map<String, String> validDrinks = new HashMap<>();
+        validDrinks.put("1", "Coke");
+        validDrinks.put("2", "Diet Coke");
+        validDrinks.put("3", "Coke Zero");
+        validDrinks.put("4", "Pepsi");
+        validDrinks.put("5", "Diet Pepsi");
+        validDrinks.put("6", "Dr. Pepper");
+        validDrinks.put("7", "Water");
+        validDrinks.put("8", "Juice");
+        validDrinks.put("9", "Cancel");
+        Scanner scanner = new Scanner(System.in);
+        String userInput;
+
+        while (true) {
+            System.out.println("What drink do you want? Enter a number for the corresponding drink:");
+            System.out.println("[(1) Coke, (2) Diet Coke, (3) Coke Zero, (4) Pepsi, (5) Diet Pepsi, (6) Dr. Pepper, (7) Water, (8) Juice, (9) Cancel]");
+            userInput = scanner.nextLine().trim();
+            if (validDrinks.containsKey(userInput)) {
+                if (userInput.equals("9")) {
+                    return null;
+                }
+                break;
+            }
+        }
+        String name = validDrinks.get(userInput);
+
+        Integer quantity = 0;
+        while (true) {
+            System.out.println("How many of this drink do you want?");
+            System.out.println("[Enter a number or type 'Cancel']");
+            userInput = scanner.nextLine().trim();
+            if (userInput.equals("Cancel")) {
+                return null;
+            }
+            else if (isInteger(userInput)) {
+                quantity = Integer.valueOf(userInput);
+                break;
+            }
+        }
+
+        return new Drink(name, quantity);
+    }
+
+
     public static Pizza getPizzasLoop() {
         Scanner scanner = new Scanner(System.in);
-        List<String> validSizes = new ArrayList<String>(Arrays.asList("S", "M", "L", "Cancel"));
-        List<String> validTypes = new ArrayList<String>(Arrays.asList("Pepperoni", "Margherita", "Vegetarian", "Neapolitan", "Custom", "Cancel"));
-        List<String> validToppings = new ArrayList<String>(Arrays.asList("Olives", "Tomatoes", "Mushrooms", "Jalapenos", "Chicken", "Beef", "Pepperoni", "Undo", "Done", "Cancel"));
-        ////List<String> validNum = new ArrayList<String>(Arrays.asList("S", "M", "L", "Back"));
+        List<String> validSizes = new ArrayList<>(Arrays.asList("S", "M", "L", "Cancel"));
+        List<String> validTypes = new ArrayList<>(Arrays.asList("Pepperoni", "Margherita", "Vegetarian", "Neapolitan", "Custom", "Cancel"));
+        List<String> validToppings = new ArrayList<>(Arrays.asList("Olives", "Tomatoes", "Mushrooms", "Jalapenos", "Chicken", "Beef", "Pepperoni", "Undo", "Done", "Cancel"));
+        String userInput;
 
         char size;
-        // What size pizza? [S, M, L, Back]
-        String pizzaSize = "SENTINEL";
-        while (!validSizes.contains(pizzaSize)) {
-            System.out.println("What size pizza do you want? [S, M, L, Cancel]");
-            pizzaSize = scanner.nextLine().trim();
+        while (true) {
+            System.out.println("What size pizza do you want? Enter one of the following commands:");
+            System.out.println("[S, M, L, Cancel]");
+            userInput = scanner.nextLine().trim();
+            if (userInput.equals("Cancel")) {
+                return null;
+            } else if (validSizes.contains(userInput)) {
+                break;
+            }
         }
-        if (pizzaSize.equals("Cancel")) {
-            return null;
-        }
-        size = pizzaSize.charAt(0);
+        size = userInput.charAt(0);
 
         String type;
-        // What type of pizza? [Types..., Custom, Back]
-        String pizzaType = "SENTINEL";
-        while (!validTypes.contains(pizzaType)) {
-            System.out.println("What type of pizza do you want? [Pepperoni, Margherita, Vegetarian, Neapolitan, Custom, Cancel]");
-            pizzaType = scanner.nextLine().trim();
+        while (true) {
+            System.out.println("What type of pizza do you want?");
+            System.out.println("[Pepperoni, Margherita, Vegetarian, Neapolitan, Custom, Cancel]");
+            userInput = scanner.nextLine().trim();
+            if (userInput.equals("Cancel")) {
+                return null;
+            } else if (validTypes.contains(userInput)) {
+                break;
+            }
         }
-        if (pizzaType.equals("Cancel")) {
-            return null;
-        }
-        type = pizzaType;
+        type = userInput;
 
         List<String> toppings = new ArrayList<String>();
-        // What toppings? [Toppings..., Undo, Back, Done] (*: if custom)
         if (type.equals("Custom")) {
             String next_topping = "SENTINEL";
             while (!next_topping.equals("Done")) {
@@ -97,13 +116,16 @@ public class PizzaParlour {
         }
 
         int quantity;
-        // How many of this pizza? [Num, Back]
-        String pizzaQuantity = "SENTINEL";
-        while (!isInteger(pizzaQuantity)) {
-            System.out.println("How many pizzas do you want?");
-            pizzaQuantity = scanner.nextLine().trim();
+        while (true) {
+            System.out.println("How many pizzas do you want? Enter a number or 'Cancel'");
+            userInput = scanner.nextLine().trim();
+            if (userInput.equals("Cancel")) {
+                return null;
+            } else if (isInteger(userInput)) {
+                break;
+            }
         }
-        quantity = Integer.parseInt(pizzaQuantity);
+        quantity = Integer.parseInt(userInput);
 
         Pizza customerPizza = null;
         if (type.equals("Pepperoni")) {
@@ -121,46 +143,118 @@ public class PizzaParlour {
         return customerPizza;
     }
 
-    public static void main(String[] args) {
-        getMenu();
-        Map<Integer, Integer> drinks = new HashMap<Integer, Integer>();
-        for (int i = 1; i <= 8; i += 1) {
-            drinks.put(i, 0);
-        }
 
-        List<Pizza> pizzas = new ArrayList<Pizza>();
+    public static String[] getAddressAndDelivery() {
+        String[] addressAndDelivery = new String[2];
+        List<String> validDeliveries = new ArrayList<>(Arrays.asList("Pickup", "Delivery", "Uber", "Foodora"));
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to 301 Pizza!: ");
-        String userInput = "SENTINEL";
+        String userInput;
 
-        while (!userInput.equals("QUIT")) {
-            System.out.println("What would you like to order? [Pizza, Drink, Checkout]");
-            userInput = scanner.nextLine();
+        while (true) {
+            System.out.println("What delivery type do you want? Option 2 uses our parlour's own delivery system.");
+            System.out.println("[Pickup, Delivery, Uber, Foodora, Cancel]");
+            userInput = scanner.nextLine().trim();
+            if (userInput.equals("Cancel")) {
+                return null;
+            } else if (validDeliveries.contains(userInput)) {
+                break;
+            }
+        }
+        addressAndDelivery[1] = userInput;
 
-            // Parse user input
+        if (!addressAndDelivery[1].equals("Pickup")) {
+            System.out.println("Please enter your address:");
+            userInput = scanner.nextLine().trim();
+            if (userInput.equals("Cancel")) {
+                return null;
+            }
+            addressAndDelivery[0] = userInput;
+        }
+
+        return addressAndDelivery;
+    }
+
+
+    public static Order createOrder() {
+        List<Pizza> pizzas = new ArrayList<>();
+        List<Drink> drinks = new ArrayList<>();
+
+        String address;
+        String type;
+
+        Scanner newOrderScanner = new Scanner(System.in);
+        String userInput;
+
+        while (true) {
+            System.out.println("What would you like to order? Enter one of the following commands:");
+            System.out.println("[Pizza, Drink, Checkout, Cancel]");
+            userInput = newOrderScanner.nextLine().trim();
+
             if (userInput.equals("Pizza")) {
                 Pizza nextPizza = getPizzasLoop();
                 if (nextPizza != null) {
-                    System.out.println(nextPizza); // TESTING ONLY
                     pizzas.add(nextPizza);
                 }
             } else if (userInput.equals("Drink")) {
-                System.out.println(drinks); // TESTING ONLY
-                int[] drinkResult = getDrinksLoop(drinks);
-                if (drinkResult[0] != 0) {
-                    drinks.put(drinkResult[0], drinkResult[1]);
+                Drink nextDrink = getDrinksLoop();
+                if (nextDrink != null) {
+                    drinks.add(nextDrink);
                 }
             } else if (userInput.equals("Checkout")) {
-                ; // GO TO CHECKOUT
-            } else {
-                ; // INVALID INPUT
+                String[] addressAndDelivery = getAddressAndDelivery();
+                if (addressAndDelivery == null) {
+                    return null;
+                }
+                address = addressAndDelivery[0];
+                type = addressAndDelivery[1];
+                break;
+            } else if (userInput.equals("Cancel")){
+                return null;
             }
-
-            //////////////////////////
-            // scanner.close();
         }
 
+        return OrderFactory.getOrder(pizzas, drinks, address, type);
+    }
+
+
+    public static void runApp() {
+        List<Order> orders = new ArrayList<>();
+        Scanner orderScanner = new Scanner(System.in);
+        System.out.println("Welcome to 301 Pizza!: ");
+        String userInput;
+
+        while (true) {
+            System.out.println("What would you like to do? Enter a number for the corresponding option:");
+            System.out.println("[(1) Create an Order, (2) Update an Order, (3) Delete an Order, (4) Submit an Order, (5) View Menu, (6) Quit App]");
+            userInput = orderScanner.nextLine().trim();
+
+            if (userInput.equals("1")) {
+                Order newOrder = createOrder();
+                if (newOrder != null) {
+                    orders.add(newOrder);
+                }
+            } else if (userInput.equals("2")) {
+                //
+            } else if (userInput.equals("3")) {
+                //
+            } else if (userInput.equals("4")) {
+                //
+            } else if (userInput.equals("5")) {
+                //
+            } else if (userInput.equals("6")) {
+                break;
+            } else {
+                System.out.println("Invalid Command, Try Again.");
+            }
+            // DEVELOPMENT ONLY
+            System.out.println(orders);
+        }
+    }
+
+
+    public static void main(String[] args) {
+        runApp();
     }
 
 }

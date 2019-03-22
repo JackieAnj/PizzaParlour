@@ -3,8 +3,8 @@ package a2;
 import java.util.List;
 
 public class DeliveryOrder extends Order {
-    public DeliveryOrder (List<Pizza> pizzas, List<String> drinks) {
-        super(pizzas, drinks);
+    public DeliveryOrder (List<Pizza> pizzas, List<Drink> drinks, String address) {
+        super(pizzas, drinks, address);
     }
 
     public String getType() {
