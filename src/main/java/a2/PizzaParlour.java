@@ -1,11 +1,11 @@
 package a2;
 
+import org.json.JSONObject;
+
 import java.util.*;
 
 import static a2.Menu.displayMenu;
 import static a2.Menu.setMenu;
-
-import org.json.JSONObject;
 
 public class PizzaParlour {
 
@@ -156,10 +156,9 @@ public class PizzaParlour {
     }
 
 
-    static String[] getAddressAndDelivery() {
+    static String[] getAddressAndDelivery(Scanner scanner) {
         String[] addressAndDelivery = new String[2];
         List<String> validDeliveries = new ArrayList<>(Arrays.asList("Pickup", "Delivery", "Uber", "Foodora"));
-        Scanner scanner = new Scanner(System.in);
         String userInput;
 
         while (true) {
@@ -215,7 +214,7 @@ public class PizzaParlour {
                     }
                     break;
                 case "Checkout":
-                    String[] addressAndDelivery = getAddressAndDelivery();
+                    String[] addressAndDelivery = getAddressAndDelivery(newOrderScanner);
                     if (addressAndDelivery == null) {
                         return null;
                     }
@@ -569,7 +568,7 @@ public class PizzaParlour {
                     orders.add(newOrder);
                 }
             } else if (userInput.equals("2")) { // Update an Order
-                int orderToModify = getOrderNumber(orders, new Scanner(System.in));
+                int orderToModify = getOrderNumber(orders, orderScanner);
                 if (orderToModify != -1) {
                     int indexToModify = getOrderIndex(orders, orderToModify);
                     if (indexToModify != -1) {
@@ -579,7 +578,7 @@ public class PizzaParlour {
                     }
                 }
             } else if (userInput.equals("3")) { // Delete an Order
-                int orderToRemove = getOrderNumber(orders, new Scanner(System.in));
+                int orderToRemove = getOrderNumber(orders, orderScanner);
                 if (orderToRemove != -1) {
                     int indexToRemove = getOrderIndex(orders, orderToRemove);
                     if (indexToRemove != -1) {
@@ -587,7 +586,7 @@ public class PizzaParlour {
                     }
                 }
             } else if (userInput.equals("4")) { // Submit an Order
-                int orderToSubmit = getOrderNumber(orders, new Scanner(System.in));
+                int orderToSubmit = getOrderNumber(orders, orderScanner);
                 if (orderToSubmit != -1) {
                     int indexToSubmit = getOrderIndex(orders, orderToSubmit);
                     if (indexToSubmit != -1) {
@@ -617,7 +616,7 @@ public class PizzaParlour {
             } else if (userInput.equals("5")) { // View Menu
                 String menuCommand = "";
                 while (!menuCommand.equals("Done")) {
-                    menuCommand = getMenuCommandFromUser(new Scanner(System.in));
+                    menuCommand = getMenuCommandFromUser(orderScanner);
                     String menuInfo = getMenuInfo(menuCommand);
                     System.out.println("RESULT BEGIN\n" + menuInfo + "RESULT END\n");
                 }
