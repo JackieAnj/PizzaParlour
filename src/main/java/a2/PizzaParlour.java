@@ -1,4 +1,6 @@
 package a2;
+import org.json.JSONObject;
+
 import java.util.*;
 
 import static a2.Menu.displayMenu;
@@ -217,11 +219,11 @@ public class PizzaParlour {
     }
 
 
-    public static int getOrderToRemove(List<Order> orders, Scanner scanner) {
+    public static int getOrderNumber(List<Order> orders, Scanner scanner) {
         for (int i = 0; i < orders.size(); i += 1) {
             System.out.println(orders.get(i));
         }
-        System.out.println("Choose an order number to remove or 'Cancel':");
+        System.out.println("Choose an order number or 'Cancel':");
         String userInput = scanner.nextLine().trim();
         if (userInput.equals("Cancel") || !isInteger(userInput)) {
             return -1;
@@ -230,9 +232,9 @@ public class PizzaParlour {
     }
 
 
-    public static int getIndexToRemove(List<Order> orders, int orderToRemove) {
+    public static int getOrderIndex(List<Order> orders, int orderNumber) {
         for (int i = 0; i < orders.size(); i += 1) {
-            if (orders.get(i).getOrderNum() == orderToRemove) {
+            if (orders.get(i).getOrderNum() == orderNumber) {
                 return i;
             }
         }
@@ -257,6 +259,50 @@ public class PizzaParlour {
     }
 
 
+    public static String submitPickup(Order order) {
+        String result = "Your order will be available for pickup in 15 to 20 minutes. You are order #";
+        result += String.valueOf(order.getOrderNum());
+        result += "!";
+        return result;
+    }
+
+
+    public static String submitDelivery(Order order) {
+        String result = "Your order #" + String.valueOf(order.getOrderNum()) + " will be delivered as soon as possible to: ";
+        result += order.getAddress();
+        result += "!";
+        return result;
+    }
+
+
+    public static String submitUber(Order order) {
+        JSONObject orderJson = new JSONObject();
+        orderJson.put("Address", order.getAddress());
+        orderJson.put("Order Number", order.getOrderNum());
+        String pizzas = order.getPizzas().toString();
+        String drinks = order.getDrinks().toString();
+        String orderDetails = "Pizzas: " + pizzas + " & " + "Drinks: " + drinks;
+        orderJson.put("Order Details", orderDetails);
+        return orderJson.toString();
+    }
+
+
+    public static String submitFoodora(Order order) {
+        // Create comma separated line for each part of delivery details
+        String result = "";
+        String address = "Address," + order.getAddress() + "\n";
+        String pizzas = order.getPizzas().toString();
+        String drinks = order.getDrinks().toString();
+        String foodDetails = "Pizzas: " + pizzas + " & " + "Drinks: " + drinks;
+        String orderDetails = "Order Details," + foodDetails + "\n";
+        String orderNumber = "Order Number," + order.getOrderNum() + "\n";
+        result += address;
+        result += orderDetails;
+        result += orderNumber;
+        return result;
+    }
+
+
     public static void runApp() {
         setMenu();
         List<Order> orders = new ArrayList<>();
@@ -277,15 +323,36 @@ public class PizzaParlour {
             } else if (userInput.equals("2")) { // Update an Order
                 //
             } else if (userInput.equals("3")) { // Delete an Order
-                int orderToRemove = getOrderToRemove(orders, orderScanner);
+                int orderToRemove = getOrderNumber(orders, orderScanner);
                 if (orderToRemove != -1) {
-                    int indexToRemove = getIndexToRemove(orders, orderToRemove);
+                    int indexToRemove = getOrderIndex(orders, orderToRemove);
                     if (indexToRemove != -1) {
                         orders.remove(indexToRemove);
                     }
                 }
             } else if (userInput.equals("4")) { // Submit an Order
-                //
+                int orderToSubmit = getOrderNumber(orders, new Scanner(System.in));
+                if (orderToSubmit != -1) {
+                    int indexToSubmit = getOrderIndex(orders, orderToSubmit);
+                    if (indexToSubmit != -1) {
+                        Order order = orders.get(indexToSubmit);
+                        String type = order.getType();
+                        String result = "";
+                        if (type.equals("Pickup")) {
+                            result = submitPickup(order);
+                        } else if (type.equals("Delivery")) {
+                            result = submitDelivery(order);
+                        } else if (type.equals("Uber")) {
+                            result = submitUber(order);
+                        } else if (type.equals("Foodora")) {
+                            result = submitFoodora(order);
+                        }
+                        System.out.println(result);
+                        orders.remove(indexToSubmit);
+                    }
+                    //
+                    // DELETE ORDER AFTER SUBMITTED
+                }
             } else if (userInput.equals("5")) { // View Menu
                 String menuCommand = "";
                 while (!menuCommand.equals("Done")) {
