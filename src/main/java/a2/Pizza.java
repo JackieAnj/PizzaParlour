@@ -25,6 +25,10 @@ public abstract class Pizza {
 
     int getQuantity() {return quantity; }
 
+    public int getPizzaId() {
+        return pizzaId;
+    }
+
     public Pizza(char size, int quantity) {
         this.size = size;
         this.quantity = quantity;
@@ -37,13 +41,11 @@ public abstract class Pizza {
 
     @Override
     public String toString() {
-        return "Pizza{" +
-                "type='" + type + '\'' +
-                ", size=" + size +
-                ", toppings=" + toppings +
-                ", quantity=" + quantity +
-                ", pizzaId=" + pizzaId +
-                '}';
+        return "Pizza #" + pizzaId + " ---> " +
+                "type=" + type + "\n" +
+                "size=" + size + "\n" +
+                "toppings=" + toppings + "\n" +
+                "quantity=" + quantity + "\n";
     }
 }
 
