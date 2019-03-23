@@ -6,7 +6,7 @@
 We decided to conduct our pair programming online, using Discord's voice chat and screen sharing feature.
 1. The first feature we implemented using pair programming is the ability to order pizzas and drinks. The implementation of the order feature was planned as a team during the first team meeting, and a flow chart representing the prcoess of placing an order was created. The coding of this feature was completed in two sittings, with each sitting lasting roughly 1 hour. Pi was the driver and I (Jackie) was the navigator for both sittings.
 2. The second feature we implemented as a pair was the ability for the user to call up a menu, or search up a specific menu item. The implementation of the menu feature was also planned as a team during the first team meeting. The coding of this feature was completed in one sitting, roughly taking an hour. I (Jackie) was the driver this time with Pi being the navigator.
-3. For testing ///TBD
+3. For testing I was the driver writting most of the unit tests, while Pi was the navigator. Both of us contributed in coming up with the various test cases. Pi also had a role of building the features of the program in a way that would allow for easy testing.
 ### Refection
 The overall pair programming process went smoothly. We did not encounter any major technical or communication problems. Due to time constraints, We decided to not switch rules during the features themselves as we felt it halted the development process. By having one driver complete one feature, they are able to work on the feature long enough to get into the groove of things. This also allowed the navigator enough time to think about any problems that could occur or improvements to the design.
 
