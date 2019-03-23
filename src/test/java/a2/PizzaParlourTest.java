@@ -427,4 +427,22 @@ public class PizzaParlourTest {
         assertEquals("Pizza quantity should be updated", 3, result.get(0).getQuantity());
         assertEquals("Pizza type should be the same", "Pepperoni", result.get(0).getType());
     }
+
+    @Test
+    public void TestGetUpdatedOrderDone() {
+        List<Pizza> pizzas = new ArrayList<>();
+        List<Drink> drinks = new ArrayList<>();
+        Pizza pizza = PizzaFactory.makePepperoniPizza('S', 3);
+        Drink drink = new Drink("Coke", 1);
+        pizzas.add(pizza);
+        drinks.add(drink);
+        PizzaParlour p = new PizzaParlour();
+
+        String input = "4";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        Order order = OrderFactory.getOrder(pizzas, drinks, "15 College St", "Uber");
+        assertEquals("Order should be the same", order,  p.getUpdatedOrder(order, new Scanner(System.in)));
+    }
 }
