@@ -18,7 +18,7 @@ public class PizzaParlour {
     }
 
 
-    public static Drink getDrinksLoop() {
+    public static Drink getDrinksLoop(Scanner scanner) {
         Map<String, String> validDrinks = new HashMap<>();
         validDrinks.put("1", "Coke");
         validDrinks.put("2", "Diet Coke");
@@ -29,7 +29,7 @@ public class PizzaParlour {
         validDrinks.put("7", "Water");
         validDrinks.put("8", "Juice");
         validDrinks.put("9", "Cancel");
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
         String userInput;
 
         while (true) {
@@ -63,8 +63,8 @@ public class PizzaParlour {
     }
 
 
-    public static Pizza getPizzasLoop() {
-        Scanner scanner = new Scanner(System.in);
+    public static Pizza getPizzasLoop(Scanner scanner) {
+        //Scanner scanner = new Scanner(System.in);
         List<String> validSizes = new ArrayList<>(Arrays.asList("S", "M", "L", "Cancel"));
         List<String> validTypes = new ArrayList<>(Arrays.asList("Pepperoni", "Margherita", "Vegetarian", "Neapolitan", "Custom", "Cancel"));
         List<String> validToppings = new ArrayList<>(Arrays.asList("Olives", "Tomatoes", "Mushrooms", "Jalapenos", "Chicken", "Beef", "Pepperoni", "Undo", "Done", "Cancel"));
@@ -145,10 +145,10 @@ public class PizzaParlour {
     }
 
 
-    public static String[] getAddressAndDelivery() {
+    public static String[] getAddressAndDelivery(Scanner scanner) {
         String[] addressAndDelivery = new String[2];
         List<String> validDeliveries = new ArrayList<>(Arrays.asList("Pickup", "Delivery", "Uber", "Foodora"));
-        Scanner scanner = new Scanner(System.in);
+        //Scanner scanner = new Scanner(System.in);
         String userInput;
 
         while (true) {
@@ -176,13 +176,13 @@ public class PizzaParlour {
     }
 
 
-    public static Order createOrder() {
+    public static Order createOrder(Scanner newOrderScanner) {
         List<Pizza> pizzas = new ArrayList<>();
         List<Drink> drinks = new ArrayList<>();
         String address;
         String type;
 
-        Scanner newOrderScanner = new Scanner(System.in);
+        //Scanner newOrderScanner = new Scanner(System.in);
         String userInput;
 
         while (true) {
@@ -191,17 +191,17 @@ public class PizzaParlour {
             userInput = newOrderScanner.nextLine().trim();
 
             if (userInput.equals("Pizza")) {
-                Pizza nextPizza = getPizzasLoop();
+                Pizza nextPizza = getPizzasLoop(newOrderScanner);
                 if (nextPizza != null) {
                     pizzas.add(nextPizza);
                 }
             } else if (userInput.equals("Drink")) {
-                Drink nextDrink = getDrinksLoop();
+                Drink nextDrink = getDrinksLoop(newOrderScanner);
                 if (nextDrink != null) {
                     drinks.add(nextDrink);
                 }
             } else if (userInput.equals("Checkout")) {
-                String[] addressAndDelivery = getAddressAndDelivery();
+                String[] addressAndDelivery = getAddressAndDelivery(newOrderScanner);
                 if (addressAndDelivery == null) {
                     return null;
                 }
@@ -270,14 +270,14 @@ public class PizzaParlour {
             userInput = orderScanner.nextLine().trim();
 
             if (userInput.equals("1")) { // Create an Order
-                Order newOrder = createOrder();
+                Order newOrder = createOrder(orderScanner);
                 if (newOrder != null) {
                     orders.add(newOrder);
                 }
             } else if (userInput.equals("2")) { // Update an Order
                 //
             } else if (userInput.equals("3")) { // Delete an Order
-                int orderToRemove = getOrderToRemove(orders, new Scanner(System.in));
+                int orderToRemove = getOrderToRemove(orders, orderScanner);
                 if (orderToRemove != -1) {
                     int indexToRemove = getIndexToRemove(orders, orderToRemove);
                     if (indexToRemove != -1) {
@@ -289,7 +289,7 @@ public class PizzaParlour {
             } else if (userInput.equals("5")) { // View Menu
                 String menuCommand = "";
                 while (!menuCommand.equals("Done")) {
-                    menuCommand = getMenuCommandFromUser(new Scanner(System.in));
+                    menuCommand = getMenuCommandFromUser(orderScanner);
                     String menuInfo = getMenuInfo(menuCommand);
                     System.out.println("RESULT BEGIN\n" + menuInfo + "RESULT END\n");
                 }
