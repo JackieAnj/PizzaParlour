@@ -3,12 +3,14 @@ package a2;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PizzaParlourTest {
 
@@ -195,61 +197,63 @@ public class PizzaParlourTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
 
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+
+        System.setOut(ps);
         PizzaParlour p = new PizzaParlour();
 
         p.main(null);
-
-        //assertEquals("Order type should be expected", "Uber", resultOrder.getType());
-        //assertEquals("Order address should be expected", "15 College St", resultOrder.getAddress());
+        String expected= "Your order will be available for pickup in 15 to 20 minutes. You are order #1!\n";
+        String result[] = baos.toString().split("\\r?\\n");
+        assertEquals("Order type should be expected", expected, result[24] + "\n");
     }
 
 
     @Test
     public void TestSubmitDeliveryOrder() {
-        String input = "1" + System.getProperty("line.separator") + "Drink" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") +
-                "5" + System.getProperty("line.separator") + "Checkout" + System.getProperty("line.separator") +
-                "Delivery" + System.getProperty("line.separator") + "21 Jump Street" + System.getProperty("line.separator") + "4" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") + "6";
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
-
+        List<Pizza> pizzas = new ArrayList<>();
+        List<Drink> drinks = new ArrayList<>();
+        Pizza pizza = PizzaFactory.makePepperoniPizza('S', 3);
+        Drink drink = new Drink("Coke", 1);
+        pizzas.add(pizza);
+        drinks.add(drink);
         PizzaParlour p = new PizzaParlour();
-
-        p.main(null);
-
-        //assertEquals("Order type should be expected", "Uber", resultOrder.getType());
-        //assertEquals("Order address should be expected", "15 College St", resultOrder.getAddress());
+        Order order = OrderFactory.getOrder(pizzas, drinks, "15 College St", "Delivery");
+        String expectedMsg = "Your order #" + order.getOrderNum() + " will be delivered as soon as possible to: 15 College St!";
+        assertEquals("should display correct message", expectedMsg, p.submitDelivery(order));
     }
 
     @Test
     public void TestSubmitFoodoraOrder() {
-        String input = "1" + System.getProperty("line.separator") + "Drink" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") +
-                "5" + System.getProperty("line.separator") + "Checkout" + System.getProperty("line.separator") +
-                "Foodora" + System.getProperty("line.separator") + "21 Jump Street" + System.getProperty("line.separator") + "4" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") + "6";
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
-
+        List<Pizza> pizzas = new ArrayList<>();
+        List<Drink> drinks = new ArrayList<>();
+        Pizza pizza = PizzaFactory.makePepperoniPizza('S', 3);
+        Drink drink = new Drink("Coke", 1);
+        pizzas.add(pizza);
+        drinks.add(drink);
         PizzaParlour p = new PizzaParlour();
-
-        p.main(null);
-
-        //assertEquals("Order type should be expected", "Uber", resultOrder.getType());
-        //assertEquals("Order address should be expected", "15 College St", resultOrder.getAddress());
+        Order order = OrderFactory.getOrder(pizzas, drinks, "15 College St", "Foodora");
+        String expectedMsg = "Address,15 College St\n" +
+                "Order Details,Pizzas: [Pizza{type='Pepperoni', size=S, toppings=[pepperoni], quantity=3, pizzaId=" + pizza.getPizzaId()+ "}] & Drinks: [Drink{name='Coke', quantity=1}]\n" +
+                "Order Number," + order.getOrderNum() + "\n";
+        assertEquals("should display correct message", expectedMsg, p.submitFoodora(order));
     }
 
     @Test
     public void TestSubmitUberOrder() {
-        String input = "1" + System.getProperty("line.separator") + "Drink" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") +
-                "5" + System.getProperty("line.separator") + "Checkout" + System.getProperty("line.separator") +
-                "Foodora" + System.getProperty("line.separator") + "21 Jump Street" + System.getProperty("line.separator") + "4" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") + "6";
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
-
+        List<Pizza> pizzas = new ArrayList<>();
+        List<Drink> drinks = new ArrayList<>();
+        Pizza pizza = PizzaFactory.makePepperoniPizza('S', 3);
+        Drink drink = new Drink("Coke", 1);
+        pizzas.add(pizza);
+        drinks.add(drink);
         PizzaParlour p = new PizzaParlour();
-
-        p.main(null);
-
-        //assertEquals("Order type should be expected", "Uber", resultOrder.getType());
-        //assertEquals("Order address should be expected", "15 College St", resultOrder.getAddress());
+        Order order = OrderFactory.getOrder(pizzas, drinks, "15 College St", "Uber");
+        String expectedMsg = "{\"Address\":\"15 College St\",\"Order Details\":\"Pizzas: [Pizza{type='Pepperoni', " +
+                "size=S, toppings=[pepperoni], quantity=3, pizzaId=" + pizza.getPizzaId() +"}] & Drinks: [Drink{name='Coke', " +
+                "quantity=1}]\",\"Order Number\":" + order.getOrderNum() + "}";
+        assertEquals("should display correct message", expectedMsg, p.submitUber(order));
     }
 
     @Test
@@ -261,7 +265,5 @@ public class PizzaParlourTest {
 
         PizzaParlour p = new PizzaParlour();
         p.main(null);
-
     }
-
 }
