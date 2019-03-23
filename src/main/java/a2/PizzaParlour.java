@@ -217,7 +217,48 @@ public class PizzaParlour {
     }
 
 
+    public static int getOrderToRemove(List<Order> orders, Scanner scanner) {
+        for (int i = 0; i < orders.size(); i += 1) {
+            System.out.println(orders.get(i));
+        }
+        System.out.println("Choose an order number to remove or 'Cancel':");
+        String userInput = scanner.nextLine().trim();
+        if (userInput.equals("Cancel") || !isInteger(userInput)) {
+            return -1;
+        }
+        return Integer.valueOf(userInput);
+    }
+
+
+    public static int getIndexToRemove(List<Order> orders, int orderToRemove) {
+        for (int i = 0; i < orders.size(); i += 1) {
+            if (orders.get(i).getOrderNum() == orderToRemove) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    public static String getMenuCommandFromUser(Scanner scanner) {
+        System.out.println("Enter one of the following commands:");
+        System.out.println("'Full': the full menu");
+        System.out.println("'Pizzas': the pizzas");
+        System.out.println("'Toppings': the toppings");
+        System.out.println("'Drinks': the drinks");
+        System.out.println("You can also get an individual item such as 'Coke' or 'Beef'");
+        System.out.println("Type 'Done' to exit the menu");
+        return scanner.nextLine().trim();
+    }
+
+
+    public static String getMenuInfo(String command) {
+        return displayMenu("Menu-" + command);
+    }
+
+
     public static void runApp() {
+        setMenu();
         List<Order> orders = new ArrayList<>();
         Scanner orderScanner = new Scanner(System.in);
         System.out.println("Welcome to 301 Pizza!: ");
@@ -228,20 +269,31 @@ public class PizzaParlour {
             System.out.println("[(1) Create an Order, (2) Update an Order, (3) Delete an Order, (4) Submit an Order, (5) View Menu, (6) Quit App]");
             userInput = orderScanner.nextLine().trim();
 
-            if (userInput.equals("1")) {
+            if (userInput.equals("1")) { // Create an Order
                 Order newOrder = createOrder();
                 if (newOrder != null) {
                     orders.add(newOrder);
                 }
-            } else if (userInput.equals("2")) {
+            } else if (userInput.equals("2")) { // Update an Order
                 //
-            } else if (userInput.equals("3")) {
+            } else if (userInput.equals("3")) { // Delete an Order
+                int orderToRemove = getOrderToRemove(orders, new Scanner(System.in));
+                if (orderToRemove != -1) {
+                    int indexToRemove = getIndexToRemove(orders, orderToRemove);
+                    if (indexToRemove != -1) {
+                        orders.remove(indexToRemove);
+                    }
+                }
+            } else if (userInput.equals("4")) { // Submit an Order
                 //
-            } else if (userInput.equals("4")) {
-                //
-            } else if (userInput.equals("5")) {
-                //
-            } else if (userInput.equals("6")) {
+            } else if (userInput.equals("5")) { // View Menu
+                String menuCommand = "";
+                while (!menuCommand.equals("Done")) {
+                    menuCommand = getMenuCommandFromUser(new Scanner(System.in));
+                    String menuInfo = getMenuInfo(menuCommand);
+                    System.out.println("RESULT BEGIN\n" + menuInfo + "RESULT END\n");
+                }
+            } else if (userInput.equals("6")) { // Quit App
                 break;
             } else {
                 System.out.println("Invalid Command, Try Again.");

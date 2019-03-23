@@ -22,12 +22,10 @@ public abstract class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "pizzas=" + pizzas +
-                ", drinks=" + drinks +
-                ", orderNum=" + orderNum +
-                ", address='" + address + '\'' +
-                '}';
+        return "Order #" + orderNum + " ---> " +
+                "pizzas=" + pizzas + "\n" +
+                "drinks=" + drinks + "\n" +
+                "address=" + address + "\n";
     }
 
     public abstract String getType();
