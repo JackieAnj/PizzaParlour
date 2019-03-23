@@ -1,5 +1,5 @@
 package a2;
-import java.io.StringWriter;
+
 import java.util.*;
 
 import static a2.Menu.displayMenu;
@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 public class PizzaParlour {
 
-    public static boolean isInteger(String possibleInt) throws NumberFormatException, NullPointerException {
+    private static boolean isInteger(String possibleInt) throws NumberFormatException, NullPointerException {
         // CREDIT: https://www.baeldung.com/java-check-string-number
         try {
             Integer.parseInt(possibleInt);
@@ -20,12 +20,12 @@ public class PizzaParlour {
         return true;
     }
 
-    public static boolean isPositiveInteger(String possiblePosInt) {
+    private static boolean isPositiveInteger(String possiblePosInt) {
         return isInteger(possiblePosInt) && Integer.valueOf(possiblePosInt) > 0;
     }
 
 
-    public static Drink getDrinksLoop(Scanner scanner) {
+    static Drink getDrinksLoop(Scanner scanner) {
         Map<String, String> validDrinks = new HashMap<>();
         validDrinks.put("1", "Coke");
         validDrinks.put("2", "Diet Coke");
@@ -51,7 +51,7 @@ public class PizzaParlour {
         }
         String name = validDrinks.get(userInput);
 
-        Integer quantity = 0;
+        Integer quantity;
         while (true) {
             System.out.println("How many of this drink do you want?");
             System.out.println("[Enter a number > 0 or type 'Cancel']");
@@ -69,7 +69,7 @@ public class PizzaParlour {
     }
 
 
-    public static Pizza getPizzasLoop(Scanner scanner) {
+    static Pizza getPizzasLoop(Scanner scanner) {
         List<String> validSizes = new ArrayList<>(Arrays.asList("S", "M", "L", "Cancel"));
         List<String> validTypes = new ArrayList<>(Arrays.asList("Pepperoni", "Margherita", "Vegetarian", "Neapolitan", "Custom", "Cancel"));
         List<String> validToppings = new ArrayList<>(Arrays.asList("Olives", "Tomatoes", "Mushrooms", "Jalapenos", "Chicken", "Beef", "Pepperoni", "Undo", "Done", "Cancel"));
@@ -101,7 +101,7 @@ public class PizzaParlour {
         }
         type = userInput;
 
-        List<String> toppings = new ArrayList<String>();
+        List<String> toppings = new ArrayList<>();
         if (type.equals("Custom")) {
             String next_topping = "SENTINEL";
             while (!next_topping.equals("Done")) {
@@ -134,23 +134,29 @@ public class PizzaParlour {
         quantity = Integer.parseInt(userInput);
 
         Pizza customerPizza = null;
-        if (type.equals("Pepperoni")) {
-            customerPizza = PizzaFactory.makePepperoniPizza(size, quantity);
-        } else if (type.equals("Margherita")) {
-            customerPizza = PizzaFactory.makeMargheritaPizza(size, quantity);
-        } else if (type.equals("Vegetarian")) {
-            customerPizza = PizzaFactory.makeVegetarianPizza(size, quantity);
-        } else if (type.equals("Neapolitan")) {
-            customerPizza = PizzaFactory.makeNeapolitanPizza(size, quantity);
-        } else if (type.equals("Custom")) {
-            customerPizza = PizzaFactory.makeCustomPizza(size, quantity, toppings);
+        switch (type) {
+            case "Pepperoni":
+                customerPizza = PizzaFactory.makePepperoniPizza(size, quantity);
+                break;
+            case "Margherita":
+                customerPizza = PizzaFactory.makeMargheritaPizza(size, quantity);
+                break;
+            case "Vegetarian":
+                customerPizza = PizzaFactory.makeVegetarianPizza(size, quantity);
+                break;
+            case "Neapolitan":
+                customerPizza = PizzaFactory.makeNeapolitanPizza(size, quantity);
+                break;
+            case "Custom":
+                customerPizza = PizzaFactory.makeCustomPizza(size, quantity, toppings);
+                break;
         }
 
         return customerPizza;
     }
 
 
-    public static String[] getAddressAndDelivery() {
+    static String[] getAddressAndDelivery() {
         String[] addressAndDelivery = new String[2];
         List<String> validDeliveries = new ArrayList<>(Arrays.asList("Pickup", "Delivery", "Uber", "Foodora"));
         Scanner scanner = new Scanner(System.in);
@@ -181,7 +187,7 @@ public class PizzaParlour {
     }
 
 
-    public static Order createOrder(Scanner newOrderScanner) {
+    static Order createOrder(Scanner newOrderScanner) {
         List<Pizza> pizzas = new ArrayList<>();
         List<Drink> drinks = new ArrayList<>();
         String address;
@@ -189,31 +195,35 @@ public class PizzaParlour {
 
         String userInput;
 
+        label:
         while (true) {
             System.out.println("What would you like to order? Enter one of the following commands:");
             System.out.println("[Pizza, Drink, Checkout, Cancel]");
             userInput = newOrderScanner.nextLine().trim();
 
-            if (userInput.equals("Pizza")) {
-                Pizza nextPizza = getPizzasLoop(newOrderScanner);
-                if (nextPizza != null) {
-                    pizzas.add(nextPizza);
-                }
-            } else if (userInput.equals("Drink")) {
-                Drink nextDrink = getDrinksLoop(newOrderScanner);
-                if (nextDrink != null) {
-                    drinks.add(nextDrink);
-                }
-            } else if (userInput.equals("Checkout")) {
-                String[] addressAndDelivery = getAddressAndDelivery();
-                if (addressAndDelivery == null) {
+            switch (userInput) {
+                case "Pizza":
+                    Pizza nextPizza = getPizzasLoop(newOrderScanner);
+                    if (nextPizza != null) {
+                        pizzas.add(nextPizza);
+                    }
+                    break;
+                case "Drink":
+                    Drink nextDrink = getDrinksLoop(newOrderScanner);
+                    if (nextDrink != null) {
+                        drinks.add(nextDrink);
+                    }
+                    break;
+                case "Checkout":
+                    String[] addressAndDelivery = getAddressAndDelivery();
+                    if (addressAndDelivery == null) {
+                        return null;
+                    }
+                    address = addressAndDelivery[0];
+                    type = addressAndDelivery[1];
+                    break label;
+                case "Cancel":
                     return null;
-                }
-                address = addressAndDelivery[0];
-                type = addressAndDelivery[1];
-                break;
-            } else if (userInput.equals("Cancel")){
-                return null;
             }
         }
 
@@ -221,9 +231,9 @@ public class PizzaParlour {
     }
 
 
-    public static int getOrderNumber(List<Order> orders, Scanner scanner) {
-        for (int i = 0; i < orders.size(); i += 1) {
-            System.out.println(orders.get(i));
+    static int getOrderNumber(List<Order> orders, Scanner scanner) {
+        for (Order order : orders) {
+            System.out.println(order);
         }
         System.out.println("Choose an order number or 'Cancel':");
         String userInput = scanner.nextLine().trim();
@@ -234,7 +244,7 @@ public class PizzaParlour {
     }
 
 
-    public static int getOrderIndex(List<Order> orders, int orderNumber) {
+    static int getOrderIndex(List<Order> orders, int orderNumber) {
         for (int i = 0; i < orders.size(); i += 1) {
             if (orders.get(i).getOrderNum() == orderNumber) {
                 return i;
@@ -244,7 +254,7 @@ public class PizzaParlour {
     }
 
 
-    public static String getMenuCommandFromUser(Scanner scanner) {
+    static String getMenuCommandFromUser(Scanner scanner) {
         System.out.println("Enter one of the following commands:");
         System.out.println("'Full': the full menu");
         System.out.println("'Pizzas': the pizzas");
@@ -256,12 +266,12 @@ public class PizzaParlour {
     }
 
 
-    public static String getMenuInfo(String command) {
+    static String getMenuInfo(String command) {
         return displayMenu("Menu-" + command);
     }
 
 
-    public static String submitPickup(Order order) {
+    static String submitPickup(Order order) {
         String result = "Your order will be available for pickup in 15 to 20 minutes. You are order #";
         result += String.valueOf(order.getOrderNum());
         result += "!";
@@ -269,7 +279,7 @@ public class PizzaParlour {
     }
 
 
-    public static String submitDelivery(Order order) {
+    static String submitDelivery(Order order) {
         String result = "Your order #" + String.valueOf(order.getOrderNum()) + " will be delivered as soon as possible to: ";
         result += order.getAddress();
         result += "!";
@@ -277,7 +287,7 @@ public class PizzaParlour {
     }
 
 
-    public static String submitUber(Order order) {
+    static String submitUber(Order order) {
         JSONObject orderJson = new JSONObject();
         orderJson.put("Address", order.getAddress());
         orderJson.put("Order Number", order.getOrderNum());
@@ -289,7 +299,7 @@ public class PizzaParlour {
     }
 
 
-    public static String submitFoodora(Order order) {
+    static String submitFoodora(Order order) {
         // Create comma separated line for each part of delivery details
         String result = "";
         String address = "Address," + order.getAddress() + "\n";
@@ -305,15 +315,15 @@ public class PizzaParlour {
     }
 
 
-    public static String getUserAddress(Scanner scanner) {
+    static String getUserAddress(Scanner scanner) {
         System.out.println("Please enter your address:");
         return scanner.nextLine().trim();
     }
 
 
-    public static int getDrinkNumber(List<Drink> drinks, Scanner scanner) {
-        for (int i = 0; i < drinks.size(); i += 1) {
-            System.out.println(drinks.get(i));
+    static int getDrinkNumber(List<Drink> drinks, Scanner scanner) {
+        for (Drink drink : drinks) {
+            System.out.println(drink);
         }
         System.out.println("Choose a drink number or 'Cancel':");
         String userInput = scanner.nextLine().trim();
@@ -324,7 +334,7 @@ public class PizzaParlour {
     }
 
 
-    public static int getDrinkIndex(List<Drink> drinks, int drinkNumber) {
+    static int getDrinkIndex(List<Drink> drinks, int drinkNumber) {
         for (int i = 0; i < drinks.size(); i += 1) {
             if (drinks.get(i).getDrinkNum() == drinkNumber) {
                 return i;
@@ -334,7 +344,7 @@ public class PizzaParlour {
     }
 
 
-    public static Drink changeDrink(Drink drink, Scanner scanner) {
+    static Drink changeDrink(Drink drink, Scanner scanner) {
         System.out.println(drink);
         System.out.println("Enter a new quantity [provide a number > 0]:");
         String userInput = scanner.nextLine().trim();
@@ -345,7 +355,7 @@ public class PizzaParlour {
     }
 
 
-    public static List<Drink> updateDrinks(List<Drink> drinks, Scanner scanner) {
+    static List<Drink> updateDrinks(List<Drink> drinks, Scanner scanner) {
         String userInput = "";
         while (!userInput.equals("4")) {
             System.out.println("Enter a number for the corresponding command:");
@@ -378,9 +388,9 @@ public class PizzaParlour {
     }
 
 
-    public static int getPizzaNumber(List<Pizza> pizzas, Scanner scanner) {
-        for (int i = 0; i < pizzas.size(); i += 1) {
-            System.out.println(pizzas.get(i));
+    static int getPizzaNumber(List<Pizza> pizzas, Scanner scanner) {
+        for (Pizza pizza : pizzas) {
+            System.out.println(pizza);
         }
         System.out.println("Choose a pizza number or 'Cancel':");
         String userInput = scanner.nextLine().trim();
@@ -391,7 +401,7 @@ public class PizzaParlour {
     }
 
 
-    public static int getPizzaIndex(List<Pizza> pizzas, int pizzaNumber) {
+    static int getPizzaIndex(List<Pizza> pizzas, int pizzaNumber) {
         for (int i = 0; i < pizzas.size(); i += 1) {
             if (pizzas.get(i).getPizzaId() == pizzaNumber) {
                 return i;
@@ -401,7 +411,7 @@ public class PizzaParlour {
     }
 
 
-    public static Pizza changePizza(Pizza pizza, Scanner scanner) {
+    static Pizza changePizza(Pizza pizza, Scanner scanner) {
         System.out.println(pizza);
         List<String> validSizes = new ArrayList<>(Arrays.asList("S", "M", "L"));
         List<String> validTypes = new ArrayList<>(Arrays.asList("Pepperoni", "Margherita", "Vegetarian", "Neapolitan", "Custom"));
@@ -456,23 +466,29 @@ public class PizzaParlour {
         }
 
         Pizza customerPizza = null;
-        if (type.equals("Pepperoni")) {
-            customerPizza = PizzaFactory.makePepperoniPizza(size, quantity);
-        } else if (type.equals("Margherita")) {
-            customerPizza = PizzaFactory.makeMargheritaPizza(size, quantity);
-        } else if (type.equals("Vegetarian")) {
-            customerPizza = PizzaFactory.makeVegetarianPizza(size, quantity);
-        } else if (type.equals("Neapolitan")) {
-            customerPizza = PizzaFactory.makeNeapolitanPizza(size, quantity);
-        } else if (type.equals("Custom")) {
-            customerPizza = PizzaFactory.makeCustomPizza(size, quantity, toppings);
+        switch (type) {
+            case "Pepperoni":
+                customerPizza = PizzaFactory.makePepperoniPizza(size, quantity);
+                break;
+            case "Margherita":
+                customerPizza = PizzaFactory.makeMargheritaPizza(size, quantity);
+                break;
+            case "Vegetarian":
+                customerPizza = PizzaFactory.makeVegetarianPizza(size, quantity);
+                break;
+            case "Neapolitan":
+                customerPizza = PizzaFactory.makeNeapolitanPizza(size, quantity);
+                break;
+            case "Custom":
+                customerPizza = PizzaFactory.makeCustomPizza(size, quantity, toppings);
+                break;
         }
 
         return customerPizza;
     }
 
 
-    public static List<Pizza> updatePizzas(List<Pizza> pizzas, Scanner scanner) {
+    static List<Pizza> updatePizzas(List<Pizza> pizzas, Scanner scanner) {
         String userInput = "";
         while (!userInput.equals("4")) {
             System.out.println("Enter a number for the corresponding command:");
@@ -505,7 +521,7 @@ public class PizzaParlour {
     }
 
 
-    public static Order getUpdatedOrder(Order order, Scanner scanner) {
+    static Order getUpdatedOrder(Order order, Scanner scanner) {
         List<Pizza> newPizzas = order.getPizzas();
         List<Drink> newDrinks = order.getDrinks();
         String newAddress = order.getAddress();
@@ -515,12 +531,16 @@ public class PizzaParlour {
             System.out.println("Enter a number for the corresponding command:");
             System.out.println("[(1) Update Pizzas, (2) Update Drinks, (3) Update Address, (4) Done]");
             userInput = scanner.nextLine().trim();
-            if (userInput.equals("1")) {
-                newPizzas = updatePizzas(newPizzas, scanner);
-            } else if (userInput.equals("2")) {
-                newDrinks = updateDrinks(newDrinks, scanner);
-            } else if (userInput.equals("3")) {
-                newAddress = getUserAddress(scanner);
+            switch (userInput) {
+                case "1":
+                    newPizzas = updatePizzas(newPizzas, scanner);
+                    break;
+                case "2":
+                    newDrinks = updateDrinks(newDrinks, scanner);
+                    break;
+                case "3":
+                    newAddress = getUserAddress(scanner);
+                    break;
             }
         }
 
@@ -531,7 +551,7 @@ public class PizzaParlour {
     }
 
 
-    public static void runApp() {
+    static void runApp() {
         setMenu();
         List<Order> orders = new ArrayList<>();
         Scanner orderScanner = new Scanner(System.in);
@@ -574,14 +594,19 @@ public class PizzaParlour {
                         Order order = orders.get(indexToSubmit);
                         String type = order.getType();
                         String result = "";
-                        if (type.equals("Pickup")) {
-                            result = submitPickup(order);
-                        } else if (type.equals("Delivery")) {
-                            result = submitDelivery(order);
-                        } else if (type.equals("Uber")) {
-                            result = submitUber(order);
-                        } else if (type.equals("Foodora")) {
-                            result = submitFoodora(order);
+                        switch (type) {
+                            case "Pickup":
+                                result = submitPickup(order);
+                                break;
+                            case "Delivery":
+                                result = submitDelivery(order);
+                                break;
+                            case "Uber":
+                                result = submitUber(order);
+                                break;
+                            case "Foodora":
+                                result = submitFoodora(order);
+                                break;
                         }
                         System.out.println(result);
                         orders.remove(indexToSubmit);

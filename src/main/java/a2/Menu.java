@@ -18,7 +18,7 @@ class Menu {
         try {
             reader = new BufferedReader((new FileReader(System.getProperty("user.dir") + "/Menu.txt")));
             String item = reader.readLine().trim();
-            item = reader.readLine().trim();
+            item = reader.readLine().trim(); // Need to skip a line
             while (!item.equals("TOPPINGS")) {
                 String delims = "[_]";
                 String[] pizzaTokens = item.split(delims);
@@ -49,28 +49,34 @@ class Menu {
         String[] commandTokens = userCommand.split(delims);
         String command = commandTokens[1];
         String msg = command + " is not a valid menu item";
-        if (command.equals("Full")){
-            msg = displayFullMenu();
-        } else if (command.equals("Pizzas")) {
-            msg = displayPizzaMenu();
-        } else if (command.equals("Toppings")) {
-            msg = displayToppingsMenu();
-        } else if (command.equals("Drinks")) {
-            msg = displayDrinksMenu();
-        } else {
-            String value = pizzas.get(command);
-            if (value != null) {
-                msg = command + " ==> " + value;
-            }
-            value = toppings.get(command);
-            if (value != null) {
-                msg = command + " ==> " + value;
-            }
-            value = drinks.get(command);
-            if (value != null) {
-                msg = command + " ==> " + value;
-            }
-            //System.out.println(msg);
+        switch (command) {
+            case "Full":
+                msg = displayFullMenu();
+                break;
+            case "Pizzas":
+                msg = displayPizzaMenu();
+                break;
+            case "Toppings":
+                msg = displayToppingsMenu();
+                break;
+            case "Drinks":
+                msg = displayDrinksMenu();
+                break;
+            default:
+                String value = pizzas.get(command);
+                if (value != null) {
+                    msg = command + " ==> " + value;
+                }
+                value = toppings.get(command);
+                if (value != null) {
+                    msg = command + " ==> " + value;
+                }
+                value = drinks.get(command);
+                if (value != null) {
+                    msg = command + " ==> " + value;
+                }
+                //System.out.println(msg);
+                break;
         }
         return msg;
     }
@@ -82,7 +88,7 @@ class Menu {
         String result = "== PIZZAS ==============================\n";
         //System.out.println("== PIZZAS ==============================");
         for (String key : pizzas.keySet()){
-            result = result + (key + " ==> " + pizzas.get(key)) + "\n";
+            result = String.format("%s%s\n", result, key + " ==> " + pizzas.get(key));
         }
         return result;
     }
@@ -90,18 +96,18 @@ class Menu {
     private static String displayToppingsMenu() {
         String result = " == TOPPINGS ==============================\n";
         //System.out.println(" == TOPPINGS ==============================");
-        for (String key : toppings.keySet()){
-            result = result + (key + " ==> " + toppings.get(key)) + "\n";
+        for (String key : toppings.keySet()) {
+            result = String.format("%s%s ==> %s\n", result, key, toppings.get(key));
         }
         return result;
     }
 
     private static String displayDrinksMenu() {
-        String result = "== DRINKS ==============================\n";
+        StringBuilder result = new StringBuilder("== DRINKS ==============================\n");
         //System.out.println("== DRINKS ==============================");
         for (String key : drinks.keySet()){
-            result = result + (key + " ==> " + drinks.get(key)) + "\n";
+            result.append(key).append(" ==> ").append(drinks.get(key)).append("\n");
         }
-        return result;
+        return result.toString();
     }
 }

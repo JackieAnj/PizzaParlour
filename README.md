@@ -31,5 +31,7 @@ This ensures that when the program is sending the arguments to the constructors,
 #### 3. Adaptor
 
 ### Relationships between objects
+In our program we aimed to have low coupling between the objects. Each object is able to be modified while still maintaining the functionality of the overall program. We acheived this by making sure there are no artificial dependencies. If there are classes that share common attributes or methods, they will be defined in the parent class. An example of this can be seen in the Pizza abstract class, and its attributes size and quantity.
 
+We also designed our program to have high cohesion. We did so by making sure each class only has one specific task, so that the classes only contains attributes and methods that are relevent to the class' purpose.
 ### Formatting tools
