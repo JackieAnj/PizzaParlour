@@ -117,7 +117,6 @@ public class PizzaParlourTest {
         assertEquals("Drink quantity should be expected", 5, resultDrink.getQuantity());
         assertEquals("Drink String should be expected", "Drink{name='Coke', quantity=5}", resultDrink.toString());
     }
-
     @Test
     public void TestCreatePickupOrder() {
         String input = "Pizza" + System.getProperty("line.separator") + "M" + System.getProperty("line.separator") +
@@ -189,7 +188,72 @@ public class PizzaParlourTest {
     }
 
     @Test
-    public void TestDeleteOrder() {
+    public void TestSubmitPickupOrder() {
+        String input = "1" + System.getProperty("line.separator") + "Drink" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") +
+                "5" + System.getProperty("line.separator") + "Checkout" + System.getProperty("line.separator") +
+                "Pickup" + System.getProperty("line.separator") + "4" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") + "6";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        PizzaParlour p = new PizzaParlour();
+
+        p.main(null);
+
+        //assertEquals("Order type should be expected", "Uber", resultOrder.getType());
+        //assertEquals("Order address should be expected", "15 College St", resultOrder.getAddress());
+    }
+
+
+    @Test
+    public void TestSubmitDeliveryOrder() {
+        String input = "1" + System.getProperty("line.separator") + "Drink" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") +
+                "5" + System.getProperty("line.separator") + "Checkout" + System.getProperty("line.separator") +
+                "Delivery" + System.getProperty("line.separator") + "21 Jump Street" + System.getProperty("line.separator") + "4" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") + "6";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        PizzaParlour p = new PizzaParlour();
+
+        p.main(null);
+
+        //assertEquals("Order type should be expected", "Uber", resultOrder.getType());
+        //assertEquals("Order address should be expected", "15 College St", resultOrder.getAddress());
+    }
+
+    @Test
+    public void TestSubmitFoodoraOrder() {
+        String input = "1" + System.getProperty("line.separator") + "Drink" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") +
+                "5" + System.getProperty("line.separator") + "Checkout" + System.getProperty("line.separator") +
+                "Foodora" + System.getProperty("line.separator") + "21 Jump Street" + System.getProperty("line.separator") + "4" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") + "6";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        PizzaParlour p = new PizzaParlour();
+
+        p.main(null);
+
+        //assertEquals("Order type should be expected", "Uber", resultOrder.getType());
+        //assertEquals("Order address should be expected", "15 College St", resultOrder.getAddress());
+    }
+
+    @Test
+    public void TestSubmitUberOrder() {
+        String input = "1" + System.getProperty("line.separator") + "Drink" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") +
+                "5" + System.getProperty("line.separator") + "Checkout" + System.getProperty("line.separator") +
+                "Foodora" + System.getProperty("line.separator") + "21 Jump Street" + System.getProperty("line.separator") + "4" + System.getProperty("line.separator") + "1" + System.getProperty("line.separator") + "6";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        PizzaParlour p = new PizzaParlour();
+
+        p.main(null);
+
+        //assertEquals("Order type should be expected", "Uber", resultOrder.getType());
+        //assertEquals("Order address should be expected", "15 College St", resultOrder.getAddress());
+    }
+
+    @Test
+    public void TestCallMenu() {
         String input = "5" + System.getProperty("line.separator") + "Full" + System.getProperty("line.separator") +
                 "Done" + System.getProperty("line.separator") + "6";
         InputStream in = new ByteArrayInputStream(input.getBytes());
@@ -199,4 +263,5 @@ public class PizzaParlourTest {
         p.main(null);
 
     }
+
 }
