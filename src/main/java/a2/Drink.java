@@ -6,7 +6,7 @@ public class Drink {
     private int drinkNum;
     private static int drinkCount = 1;
 
-    public Drink(String name, int quantity) {
+    Drink(String name, int quantity) {
         this.name = name;
         this.quantity = quantity;
         this.drinkNum = drinkCount;
@@ -23,23 +23,19 @@ public class Drink {
                 "quantity=" + quantity + "\n";
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getQuantity() {
+    int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public int getDrinkNum() {
+    int getDrinkNum() {
         return drinkNum;
     }
 }

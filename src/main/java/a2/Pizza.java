@@ -6,7 +6,7 @@ import java.util.List;
 public abstract class Pizza {
     String type;
     private char size;
-    List<String> toppings = new ArrayList<String>();
+    List<String> toppings = new ArrayList<>();
     private int quantity;
     private int pizzaId;
     private static int currentId = 1;
@@ -25,7 +25,7 @@ public abstract class Pizza {
 
     int getQuantity() {return quantity; }
 
-    public int getPizzaId() {
+    int getPizzaId() {
         return pizzaId;
     }
 
@@ -53,7 +53,7 @@ class pepperoniPizza extends Pizza {
     pepperoniPizza(char size, int quantity){
         super(size, quantity);
         type = "Pepperoni";
-        toppings.add("pepperoni");
+        toppings.add("Pepperoni");
     }
 }
 
@@ -61,8 +61,8 @@ class margheritaPizza extends Pizza {
     margheritaPizza(char size, int quantity){
         super(size, quantity);
         type = "Margherita";
-        toppings.add("tomatoes");
-        toppings.add("olives");
+        toppings.add("Tomatoes");
+        toppings.add("Olives");
     }
 }
 
@@ -70,10 +70,10 @@ class vegetarianPizza extends Pizza {
     vegetarianPizza(char size, int quantity){
         super(size, quantity);
         type = "Vegetarian";
-        toppings.add("tomatoes");
-        toppings.add("olives");
-        toppings.add("mushrooms");
-        toppings.add("jalapenos");
+        toppings.add("Tomatoes");
+        toppings.add("Olives");
+        toppings.add("Mushrooms");
+        toppings.add("Jalapenos");
     }
 }
 
@@ -81,7 +81,7 @@ class neapolitanPizza extends Pizza {
     neapolitanPizza(char size, int quantity){
         super(size, quantity);
         type = "Neapolitan";
-        toppings.add("tomatoes");
+        toppings.add("Tomatoes");
     }
 }
 

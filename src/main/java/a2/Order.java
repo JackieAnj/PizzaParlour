@@ -7,7 +7,7 @@ public abstract class Order {
     private List<Drink> drinks;
     private int orderNum;
     private static int orderCount = 1;
-    private String address = null;
+    private String address;
 
     public Order(List<Pizza> pizzas, List<Drink> drinks, String address) {
         this.pizzas = pizzas;
@@ -46,15 +46,15 @@ public abstract class Order {
         this.drinks = drinks;
     }
 
-    public int getOrderNum() {
+    int getOrderNum() {
         return orderNum;
     }
 
-    public String getAddress() {
+    String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    void setAddress(String address) {
         this.address = address;
     }
 }

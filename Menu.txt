@@ -1,6 +1,6 @@
 PIZZAS
 Base Pizza_S: $5.99 M: $7.99 L: $9.99
-Pepperoni Pizza_(pepperoni) S: $6.99 M: $8.99 L: $10.99
+Pepperoni Pizza_(Pepperoni) S: $6.99 M: $8.99 L: $10.99
 Margherita Pizza_(Tomatoes, Olives) S: $6.99 M: $8.99 L: $10.99
 Vegetarian Pizza_(Tomatoes, Olives, Mushrooms, Jalapenos) S: $6.99 M: $8.99 L: $10.99
 Neapolitan Pizza_(Tomatoes) S: $6.99 M: $8.99 L: $10.99
