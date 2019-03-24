@@ -206,7 +206,7 @@ public class PizzaParlourTest {
         p.main(null);
         String expected = "Your order will be available for pickup in 15 to 20 minutes. You are order #1!\n";
         String result[] = baos.toString().split("\\r?\\n");
-        assertEquals("Order type should be expected", expected, result[28] + "\n");
+        assertEquals("Order type should be expected", expected, result[29] + "\n");
     }
 
 

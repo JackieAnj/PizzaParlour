@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import java.util.*;
 
 import static a2.Menu.displayMenu;
+import static a2.Menu.getTotal;
 import static a2.Menu.setMenu;
 
 public class PizzaParlour {
@@ -184,7 +185,6 @@ public class PizzaParlour {
 
         return addressAndDelivery;
     }
-
 
     static Order createOrder(Scanner newOrderScanner) {
         List<Pizza> pizzas = new ArrayList<>();
@@ -566,6 +566,7 @@ public class PizzaParlour {
                 Order newOrder = createOrder(orderScanner);
                 if (newOrder != null) {
                     orders.add(newOrder);
+                    getTotal(newOrder);
                 }
             } else if (userInput.equals("2")) { // Update an Order
                 int orderToModify = getOrderNumber(orders, orderScanner);
@@ -575,6 +576,7 @@ public class PizzaParlour {
                         Order order = orders.get(indexToModify);
                         Scanner scanner = new Scanner(System.in);
                         Order newOrder = getUpdatedOrder(order, scanner);
+                        getTotal(newOrder);
                     }
                 }
             } else if (userInput.equals("3")) { // Delete an Order

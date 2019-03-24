@@ -132,4 +132,23 @@ class Menu {
         }
         return result.toString();
     }
+
+    static void getTotal(Order order){
+        float total = 0;
+        for (Pizza p: order.getPizzas()){
+            String item = p.getType() + " Pizza_" + p.getSize();
+            float price = prices.get(item) * p.getQuantity();
+            if (p.getType().equals("Custom")){
+                for (String t: p.getToppings()){
+                    price += prices.get(t);
+                }
+            }
+            total += price * p.getQuantity();
+        }
+        for (Drink d: order.getDrinks()){
+            total += prices.get(d.getName()) * d.getQuantity();
+        }
+        String result = "Total: $" + Float.toString(total);
+        System.out.println(result);
+    }
 }
