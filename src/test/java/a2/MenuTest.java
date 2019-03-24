@@ -24,11 +24,11 @@ public class MenuTest {
     public void testPizzasMenu() {
         String actual = displayMenu("Menu-Pizzas");
         String expected = "== PIZZAS ==============================\n" +
-                "Margherita Pizza ==> (Tomatoes, Olives) S: $6.99 M: $8.99 L: $10.99\n" +
+                "Margherita Pizza ==> (Tomatoes, Olives) S: $6.50 M: $8.50 L: $10.50\n" +
                 "Base Pizza ==> S: $5.99 M: $7.99 L: $9.99\n" +
-                "Neapolitan Pizza ==> (Tomatoes) S: $6.99 M: $8.99 L: $10.99\n" +
+                "Neapolitan Pizza ==> (Tomatoes) S: $6.25 M: $8.25 L: $10.25\n" +
                 "Vegetarian Pizza ==> (Tomatoes, Olives, Mushrooms, Jalapenos) S: $6.99 M: $8.99 L: $10.99\n" +
-                "Pepperoni Pizza ==> (pepperoni) S: $6.99 M: $8.99 L: $10.99\n";
+                "Pepperoni Pizza ==> (pepperoni) S: $6.25 M: $8.25 L: $10.25\n";
         assertEquals("pizza menu should be as expected", expected, actual);
     }
 
@@ -65,11 +65,11 @@ public class MenuTest {
     public void testFullMenu() {
         String actual = displayMenu("Menu-Full");
         String expected =  "== PIZZAS ==============================\n" +
-                "Margherita Pizza ==> (Tomatoes, Olives) S: $6.99 M: $8.99 L: $10.99\n" +
+                "Margherita Pizza ==> (Tomatoes, Olives) S: $6.50 M: $8.50 L: $10.50\n" +
                 "Base Pizza ==> S: $5.99 M: $7.99 L: $9.99\n" +
-                "Neapolitan Pizza ==> (Tomatoes) S: $6.99 M: $8.99 L: $10.99\n" +
+                "Neapolitan Pizza ==> (Tomatoes) S: $6.25 M: $8.25 L: $10.25\n" +
                 "Vegetarian Pizza ==> (Tomatoes, Olives, Mushrooms, Jalapenos) S: $6.99 M: $8.99 L: $10.99\n" +
-                "Pepperoni Pizza ==> (pepperoni) S: $6.99 M: $8.99 L: $10.99\n" +
+                "Pepperoni Pizza ==> (pepperoni) S: $6.25 M: $8.25 L: $10.25\n" +
                 " == TOPPINGS ==============================\n" +
                 "Mushrooms ==> $0.50\n" +
                 "Olives ==> $0.50\n" +
@@ -93,7 +93,7 @@ public class MenuTest {
     @Test
     public void testPepperoniPizza() {
         String actual = displayMenu("Menu-Pepperoni Pizza");
-        String expected = "Pepperoni Pizza ==> (pepperoni) S: $6.99 M: $8.99 L: $10.99";
+        String expected = "Pepperoni Pizza ==> (pepperoni) S: $6.25 M: $8.25 L: $10.25";
         assertEquals("Pepperoni Pizza should be as expected", expected, actual);
     }
 
