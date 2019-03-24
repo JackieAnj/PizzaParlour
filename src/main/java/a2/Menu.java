@@ -1,8 +1,8 @@
 package a2;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +11,7 @@ class Menu {
     static private Map<String, String> pizzas = new HashMap<>();
     static private Map<String, String> toppings = new HashMap<>();
     static private Map<String, String> drinks = new HashMap<>();
+    static private Map<String, Float> prices = new HashMap<>();
 
     static void setMenu(){
         // CREDIT https://www.journaldev.com/709/java-read-file-line-by-line
@@ -23,6 +24,22 @@ class Menu {
                 String delims = "[_]";
                 String[] pizzaTokens = item.split(delims);
                 pizzas.put(pizzaTokens[0], pizzaTokens[1]);
+                String[] priceTokens = pizzaTokens[1].split(" ");
+                int index = 0;
+                float price;
+                for (String s : priceTokens) {
+                    index += 1;
+                    if (s.equals("S:")) {
+                        price = Float.parseFloat((priceTokens[index].substring(1)));
+                        prices.put(pizzaTokens[0]+"_S", price);
+                    } else if (s.equals("M:")) {
+                        price = Float.parseFloat((priceTokens[index].substring(1)));
+                        prices.put(pizzaTokens[0]+"_M", price);
+                    } else if (s.equals("L:")) {
+                        price = Float.parseFloat((priceTokens[index].substring(1)));
+                        prices.put(pizzaTokens[0]+"_L", price);
+                    }
+                }
                 item = reader.readLine();
             }
             item = reader.readLine();
@@ -30,6 +47,8 @@ class Menu {
                 String delims = "[_]";
                 String[] toppingTokens = item.split(delims);
                 toppings.put(toppingTokens[0], toppingTokens[1]);
+                String toppingPrice = toppingTokens[1].substring(1);
+                prices.put(toppingTokens[0], Float.parseFloat(toppingPrice));
                 item = reader.readLine();
             }
             item = reader.readLine();
@@ -37,6 +56,8 @@ class Menu {
                 String delims = "[_]";
                 String[] drinkTokens = item.split(delims);
                 drinks.put(drinkTokens[0], drinkTokens[1]);
+                String drinkPrice = drinkTokens[1].substring(1);
+                prices.put(drinkTokens[0], Float.parseFloat(drinkPrice));
                 item = reader.readLine();
             }
             reader.close();
@@ -44,6 +65,7 @@ class Menu {
             e.printStackTrace();
         }
     }
+
     static String displayMenu(String userCommand) {
         String delims = "[-]";
         String[] commandTokens = userCommand.split(delims);

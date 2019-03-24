@@ -156,7 +156,7 @@ public class PizzaParlour {
     }
 
 
-    static String[] getAddressAndDelivery(Scanner scanner) {
+    private static String[] getAddressAndDelivery(Scanner scanner) {
         String[] addressAndDelivery = new String[2];
         List<String> validDeliveries = new ArrayList<>(Arrays.asList("Pickup", "Delivery", "Uber", "Foodora"));
         String userInput;
@@ -230,7 +230,7 @@ public class PizzaParlour {
     }
 
 
-    static int getOrderNumber(List<Order> orders, Scanner scanner) {
+    private static int getOrderNumber(List<Order> orders, Scanner scanner) {
         for (Order order : orders) {
             System.out.println(order);
         }
@@ -243,7 +243,7 @@ public class PizzaParlour {
     }
 
 
-    static int getOrderIndex(List<Order> orders, int orderNumber) {
+    private static int getOrderIndex(List<Order> orders, int orderNumber) {
         for (int i = 0; i < orders.size(); i += 1) {
             if (orders.get(i).getOrderNum() == orderNumber) {
                 return i;
@@ -253,7 +253,7 @@ public class PizzaParlour {
     }
 
 
-    static String getMenuCommandFromUser(Scanner scanner) {
+    private static String getMenuCommandFromUser(Scanner scanner) {
         System.out.println("Enter one of the following commands:");
         System.out.println("'Full': the full menu");
         System.out.println("'Pizzas': the pizzas");
@@ -265,12 +265,12 @@ public class PizzaParlour {
     }
 
 
-    static String getMenuInfo(String command) {
+    private static String getMenuInfo(String command) {
         return displayMenu("Menu-" + command);
     }
 
 
-    static String submitPickup(Order order) {
+    private static String submitPickup(Order order) {
         String result = "Your order will be available for pickup in 15 to 20 minutes. You are order #";
         result += String.valueOf(order.getOrderNum());
         result += "!";
@@ -343,7 +343,7 @@ public class PizzaParlour {
     }
 
 
-    static Drink changeDrink(Drink drink, Scanner scanner) {
+    private static Drink changeDrink(Drink drink, Scanner scanner) {
         System.out.println(drink);
         System.out.println("Enter a new quantity [provide a number > 0]:");
         String userInput = scanner.nextLine().trim();
@@ -387,7 +387,7 @@ public class PizzaParlour {
     }
 
 
-    static int getPizzaNumber(List<Pizza> pizzas, Scanner scanner) {
+    private static int getPizzaNumber(List<Pizza> pizzas, Scanner scanner) {
         for (Pizza pizza : pizzas) {
             System.out.println(pizza);
         }
@@ -400,7 +400,7 @@ public class PizzaParlour {
     }
 
 
-    static int getPizzaIndex(List<Pizza> pizzas, int pizzaNumber) {
+    private static int getPizzaIndex(List<Pizza> pizzas, int pizzaNumber) {
         for (int i = 0; i < pizzas.size(); i += 1) {
             if (pizzas.get(i).getPizzaId() == pizzaNumber) {
                 return i;
@@ -410,7 +410,7 @@ public class PizzaParlour {
     }
 
 
-    static Pizza changePizza(Pizza pizza, Scanner scanner) {
+    private static Pizza changePizza(Pizza pizza, Scanner scanner) {
         System.out.println(pizza);
         List<String> validSizes = new ArrayList<>(Arrays.asList("S", "M", "L"));
         List<String> validTypes = new ArrayList<>(Arrays.asList("Pepperoni", "Margherita", "Vegetarian", "Neapolitan", "Custom"));
@@ -446,7 +446,7 @@ public class PizzaParlour {
             type = userInput;
         }
 
-        String next_topping = "SENTINEL";
+        String next_topping;
         while (type.equals("Custom")) {
             System.out.println("Pick a topping! [Olives, Tomatoes, Mushrooms, Jalapenos, Chicken, Beef, Pepperoni, Undo, Done, Clear]");
             System.out.println("Current: " + toppings);
@@ -550,7 +550,7 @@ public class PizzaParlour {
     }
 
 
-    static void runApp() {
+    private static void runApp() {
         setMenu();
         List<Order> orders = new ArrayList<>();
         Scanner orderScanner = new Scanner(System.in);
