@@ -133,11 +133,11 @@ class Menu {
         return result.toString();
     }
 
-    static void getTotal(Order order){
-        float total = 0;
+    static String getTotal(Order order){
+        double total = 0.0;
         for (Pizza p: order.getPizzas()){
             String item = p.getType() + " Pizza_" + p.getSize();
-            float price = prices.get(item) * p.getQuantity();
+            double price = prices.get(item);
             if (p.getType().equals("Custom")){
                 for (String t: p.getToppings()){
                     price += prices.get(t);
@@ -148,7 +148,6 @@ class Menu {
         for (Drink d: order.getDrinks()){
             total += prices.get(d.getName()) * d.getQuantity();
         }
-        String result = "Total: $" + Float.toString(total);
-        System.out.println(result);
+        return "Total: $" + Double.toString(total);
     }
 }

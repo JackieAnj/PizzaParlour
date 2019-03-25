@@ -203,10 +203,10 @@ public class PizzaParlourTest {
         System.setOut(ps);
         PizzaParlour p = new PizzaParlour();
 
-        p.main(null);
-        String expected = "Your order will be available for pickup in 15 to 20 minutes. You are order #1!\n";
+        PizzaParlour.main(null);
+        String expected = "What would you like to do? Enter a number for the corresponding option:";
         String result[] = baos.toString().split("\\r?\\n");
-        assertEquals("Order type should be expected", expected, result[29] + "\n");
+        assertEquals("Order type should be expected", expected, result[29]);
     }
 
 
@@ -235,12 +235,12 @@ public class PizzaParlourTest {
         PizzaParlour p = new PizzaParlour();
         Order order = OrderFactory.getOrder(pizzas, drinks, "15 College St", "Foodora");
         String expectedMsg = "Address,15 College St\n" +
-                "Order Details,Pizzas: [Pizza #" + pizza.getPizzaId() + " ---> type=Pepperoni\n" +
-                "size=S\n" +
-                "toppings=[Pepperoni]\n" +
-                "quantity=3\n" +
-                "] & Drinks: [Drink #" + drink.getDrinkNum() + " ---> name=Coke\n" +
-                "quantity=1\n" +
+                "Order Details,Pizzas: [Pizza #" + pizza.getPizzaId() + " ---> type=Pepperoni && " +
+                "size=S && " +
+                "toppings=[Pepperoni] && " +
+                "quantity=3" +
+                "] & Drinks: [Drink #" + drink.getDrinkNum() + " ---> name=Coke && " +
+                "quantity=1" +
                 "]\n" +
                 "Order Number," + order.getOrderNum() + "\n";
         assertEquals("should display correct message", expectedMsg, p.submitFoodora(order));
@@ -257,8 +257,8 @@ public class PizzaParlourTest {
         PizzaParlour p = new PizzaParlour();
         Order order = OrderFactory.getOrder(pizzas, drinks, "15 College St", "Uber");
         String expectedMsg = "{\"Address\":\"15 College St\",\"Order Details\":\"Pizzas: " +
-                "[Pizza #" + pizza.getPizzaId() + " ---> type=Pepperoni\\nsize=S\\ntoppings=[Pepperoni]\\nquantity=3\\n] & " +
-                "Drinks: [Drink #" + drink.getDrinkNum() + " ---> name=Coke\\nquantity=1\\n]\",\"Order Number\":" + order.getOrderNum() + "}";
+                "[Pizza #" + pizza.getPizzaId() + " ---> type=Pepperoni && size=S && toppings=[Pepperoni] && quantity=3] & " +
+                "Drinks: [Drink #" + drink.getDrinkNum() + " ---> name=Coke && quantity=1]\",\"Order Number\":" + order.getOrderNum() + "}";
         assertEquals("should display correct message", expectedMsg, p.submitUber(order));
     }
 

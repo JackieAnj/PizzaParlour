@@ -2,6 +2,8 @@ package a2;
 
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.*;
 
 import static a2.Menu.displayMenu;
@@ -294,7 +296,13 @@ public class PizzaParlour {
         String drinks = order.getDrinks().toString();
         String orderDetails = "Pizzas: " + pizzas + " & " + "Drinks: " + drinks;
         orderJson.put("Order Details", orderDetails);
-        return orderJson.toString();
+        String result = orderJson.toString();
+        try (PrintWriter o = new PrintWriter(System.getProperty("user.dir") + "/Result.txt")) {
+            o.println(result);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 
@@ -310,6 +318,11 @@ public class PizzaParlour {
         result += address;
         result += orderDetails;
         result += orderNumber;
+        try (PrintWriter o = new PrintWriter(System.getProperty("user.dir") + "/Result.txt")) {
+            o.println(result);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
@@ -566,7 +579,8 @@ public class PizzaParlour {
                 Order newOrder = createOrder(orderScanner);
                 if (newOrder != null) {
                     orders.add(newOrder);
-                    getTotal(newOrder);
+                    String total = getTotal(newOrder);
+                    System.out.println(total);
                 }
             } else if (userInput.equals("2")) { // Update an Order
                 int orderToModify = getOrderNumber(orders, orderScanner);
@@ -576,7 +590,8 @@ public class PizzaParlour {
                         Order order = orders.get(indexToModify);
                         Scanner scanner = new Scanner(System.in);
                         Order newOrder = getUpdatedOrder(order, scanner);
-                        getTotal(newOrder);
+                        String total = getTotal(newOrder);
+                        System.out.println(total);
                     }
                 }
             } else if (userInput.equals("3")) { // Delete an Order
@@ -612,8 +627,6 @@ public class PizzaParlour {
                         System.out.println(result);
                         orders.remove(indexToSubmit);
                     }
-                    //
-                    // DELETE ORDER AFTER SUBMITTED
                 }
             } else if (userInput.equals("5")) { // View Menu
                 String menuCommand = "";
@@ -627,7 +640,7 @@ public class PizzaParlour {
             } else {
                 System.out.println("Invalid Command, Try Again.");
             }
-            // DEVELOPMENT ONLY
+            System.out.println("Current Orders:");
             System.out.println(orders);
         }
     }

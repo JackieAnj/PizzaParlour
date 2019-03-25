@@ -19,8 +19,8 @@ public class Drink {
     @Override
     public String toString() {
         return "Drink #" + drinkNum + " ---> " +
-                "name=" + name + "\n" +
-                "quantity=" + quantity + "\n";
+                "name=" + name + " && " +
+                "quantity=" + quantity;
     }
 
     String getName() {

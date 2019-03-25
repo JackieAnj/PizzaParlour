@@ -1,0 +1,4 @@
+Address,15 College St
+Order Details,Pizzas: [Pizza #7 ---> type=Pepperoni && size=S && toppings=[Pepperoni] && quantity=3] & Drinks: [Drink #12 ---> name=Coke && quantity=1]
+Order Number,7
+

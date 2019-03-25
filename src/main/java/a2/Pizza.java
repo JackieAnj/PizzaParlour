@@ -42,10 +42,10 @@ public abstract class Pizza {
     @Override
     public String toString() {
         return "Pizza #" + pizzaId + " ---> " +
-                "type=" + type + "\n" +
-                "size=" + size + "\n" +
-                "toppings=" + toppings + "\n" +
-                "quantity=" + quantity + "\n";
+                "type=" + type + " && " +
+                "size=" + size + " && " +
+                "toppings=" + toppings + " && " +
+                "quantity=" + quantity;
     }
 }
 

@@ -144,7 +144,8 @@ which will bring you to an interface for changing pizzas, drinks, or your addres
 
 - (3) Delete an Order: This is where you can delete an order by simply entering its order number.
 
-- (4) Submit an Order: This is where you can submit an order by simply entering its order number. 
+- (4) Submit an Order: This is where you can submit an order by simply entering its order number. Look at 
+"Result.txt" (same level as the src directory) to see the result of submitting a Uber or Foodora order (JSON or csv).
 
 - (5) View Menu: This will bring you to an interface for viewing the menu where as given by commands,
 you can view the full menu, a section of the menu, or a single menu item. Entering a valid command will retrieve 
