@@ -1,4 +1,6 @@
-### A pair programmed Java application that was built using test driven development, implementing various design patterns
+## Introduction 
+This is a pair programmed Java application that was built using test driven development, implementing various design patterns.
+It was done for an intro to software engineering course at the University of Toronto
 
 ## How to use PizzaParlour App 
 ### As a User (PizzaParlour.java)
